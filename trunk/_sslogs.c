@@ -10,7 +10,7 @@
 #define EHOSTDOWN WSAEHOSTDOWN
 #endif
 
-const char* VERSION="0.2";
+const char* VERSION="0.2.1";
 
 char my_first_netmask[15];
 char my_first_broadcast[15];
@@ -19,6 +19,7 @@ char my_hostname[128] = "unkown-hostname";
 int option;
 int bSilent = 1;
 char event[25];
+char identifier[5]="sslog";
 char logHost[256]="sslog";
 char userName[256]="unkown";
 char domainName[256] = "unkown";
@@ -36,7 +37,7 @@ void usage(void)
 	 "\n sslog (%s) written by Stefan Nistelberger scuq(at)abyle.org\n \
 	 \n simple syslog client for windows \
  	 \n thx to gisle vanem for the bsd-compatible syslog client code at codeproject.com \
-	 \n sends syslog in this format: my_hostname;event;my_first_ip;my_first_netmask;my_first_broadcast;domainName;userName \
+	 \n sends syslog in this format:  sslog;my_hostname;event;my_first_ip;my_first_netmask;my_first_broadcast;domainName;userName \
 	 \nUsage: sslog [options] \n \
 	 \nRecommendation: sslog -s -e [EVENT] \n \
 	 \n  -s            disable silent mode, supressing output to stdout \
@@ -258,7 +259,7 @@ int main (int argc, char **argv)
 
   // send syslog
   openlog ("sslog", LOG_PID | LOG_CONS, LOG_LOCAL2);
-  syslog (LOG_INFO, "%s;%s;%s;%s,%s,%s,%s", my_hostname,event,my_first_ip, my_first_netmask, my_first_broadcast, domainName, userName);
+  syslog (LOG_INFO, "%s;%s;%s;%s;%s;%s;%s;%s", identifier,my_hostname,event,my_first_ip, my_first_netmask, my_first_broadcast, domainName, userName);
   closelog();
   // close log
   
